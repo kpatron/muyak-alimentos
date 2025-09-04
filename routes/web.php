@@ -9,6 +9,7 @@ use App\Http\Controllers\SessionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmpleadoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/login', function () {
 		return view('dashboard');
 	})->name('sign-up');
+
+	Route::resource('empleados', EmpleadoController::class);
 });
 
 

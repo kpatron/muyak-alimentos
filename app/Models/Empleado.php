@@ -19,4 +19,10 @@ class Empleado extends Model
         'employee_signature',
         'qr_code',
     ];
+
+    //Relations
+    public function comidas()
+    {
+        return $this->hasMany(Comida::class);
+    }
 }

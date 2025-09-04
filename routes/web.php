@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ComidaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
@@ -37,6 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
 	})->name('sign-up');
 
 	Route::resource('empleados', EmpleadoController::class);
+
+	Route::get('/comidas-empleados', [ComidaController::class, 'index'])->name('comidas-empleados.index');
+	Route::get('/comidas/export', [ComidaController::class, 'export'])->name('comidas-empleados.export');
 });
 
 
@@ -54,3 +58,8 @@ Route::group(['middleware' => 'guest'], function () {
 Route::get('/login', function () {
     return view('session/login-session');
 })->name('login');
+
+Route::get('/comidas-empleados/{signature}', [ComidaController::class, 'confirm'])->name('comidas-empleados.info');
+Route::post('/comidas-empleados/{signature}/confirm', [ComidaController::class, 'final_confirmation'])->name('comidas-empleados.confirmation');
+Route::view('/comidas-success', 'comidas.success')->name('comidas-empleados.success');
+Route::view('/comidas-invalid', 'comidas.invalid')->name('comidas-empleados.invalid');

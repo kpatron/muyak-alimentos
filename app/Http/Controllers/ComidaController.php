@@ -40,16 +40,38 @@ class ComidaController extends Controller
         }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Aquí puedes agregar la lógica para mostrar la lista de comidas del dia de hoy
-        $comidas = Comida::whereDate('created_at', now()->toDateString())->get();
+        // Mostrar las comidas de hoy por defecto o las del filtro
+        $fechaInicio = $request->input('start_date') ?? now()->toDateString();
+        $fechaFin = $request->input('end_date') ?? now()->toDateString();
+        $tipoComida = $request->input('tipo') ?? 'all';
+
+        $comidas = Comida::whereDate('created_at', '>=', $fechaInicio)
+            ->whereDate('created_at', '<=', $fechaFin)
+            ->when($tipoComida !== 'all', function ($query) use ($tipoComida) {
+                return $query->where('tipo', $tipoComida);
+            })
+            ->with('empleado')
+            ->get();
+
         return view('comidas.index', ['comidas' => $comidas]);
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        $comidas = Comida::whereDate('created_at', now()->toDateString())->with('empleado')->get();
+        //Conseguir los filtros de fechas, comidas o default a hoy
+        $fechaInicio = $request->input('fecha_inicio', now()->toDateString());
+        $fechaFin = $request->input('fecha_fin', now()->toDateString());
+        $tipoComida = $request->input('tipo_comida', 'all');
+
+        $comidas = Comida::whereDate('created_at', '>=', $fechaInicio)
+            ->whereDate('created_at', '<=', $fechaFin)
+            ->when($tipoComida !== 'all', function ($query) use ($tipoComida) {
+                return $query->where('tipo', $tipoComida);
+            })
+            ->with('empleado')
+            ->get();
 
         $filename = 'comidas_' . now()->format('Y_m_d') . '.csv';
         $handle = fopen($filename, 'w+');

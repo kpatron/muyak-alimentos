@@ -12,9 +12,31 @@
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
-                <div class="d-flex justify-content-end me-3">
-                  <a href="{{ route('comidas-empleados.export') }}" class="btn btn-primary btn-sm mb-3">Descargar CSV</a>
-                </div>
+                <!-- añadir filtros de fechas y tipos comidas -->
+                <form method="GET" action="{{ route('comidas-empleados.index') }}" class="d-flex justify-content-start align-items-center mb-3 ms-3">
+                  <div class="me-3">
+                    <label for="start_date" class="form-label">Fecha Inicio:</label>
+                    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                  </div>
+                  <div class="me-3">
+                    <label for="end_date" class="form-label">Fecha Fin:</label>
+                    <input type="date" id="end_date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                  </div>
+                  <div class="me-3">
+                    <label for="tipo" class="form-label">Tipo Comida:</label>
+                    <select id="tipo" name="tipo" class="form-select">
+                      <option value="all">Todos</option>
+                      <option value="desayuno" {{ request('tipo') == 'desayuno' ? 'selected' : '' }}>Desayuno</option>
+                      <option value="comida" {{ request('tipo') == 'comida' ? 'selected' : '' }}>Comida</option>
+                    </select>
+                  </div>
+                  <div class="align-self-end">
+                    <button type="submit" class="btn btn-primary btn-sm mb-3">Filtrar</button>
+                  </div>
+                  <div class="align-self-end ms-3">
+                    <a href="{{ route('comidas-empleados.export', ['fecha_inicio' => request('start_date'), 'fecha_fin' => request('end_date'), 'tipo_comida' => request('tipo')]) }}" class="btn btn-primary btn-sm mb-3">Descargar CSV</a>
+                  </div>
+                </form>
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>

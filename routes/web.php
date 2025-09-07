@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ComidaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InfoUserController;
 use App\Http\Controllers\RegisterController;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +29,8 @@ use App\Http\Controllers\EmpleadoController;
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [HomeController::class, 'home']);
-	Route::get('dashboard', function () {
-		return view('dashboard');
-	})->name('dashboard');
+
+	Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/logout', [SessionsController::class, 'destroy']);
 

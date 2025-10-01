@@ -73,9 +73,9 @@ class ComidaController extends Controller
             ->with('empleado')
             ->get();
 
-        //Hay que crear en el public path normal sin otra carpeta
+        //Hay que crear en el storage path normal sin otra carpeta
         $filename = 'comidas_' . now()->format('Y_m_d') . '.csv';
-        $handle = fopen(public_path($filename), 'w+');
+        $handle = fopen(storage_path('app/public/' . $filename), 'w+');
         fputcsv($handle, ['Empleado', 'Tipo de Comida', 'Fecha y Hora']);
 
         foreach ($comidas as $comida) {

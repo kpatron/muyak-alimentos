@@ -88,6 +88,6 @@ class ComidaController extends Controller
 
         fclose($handle);
 
-        return response()->download($filename)->deleteFileAfterSend(true);
+        return response()->download(storage_path('app/public/' . $filename))->deleteFileAfterSend(true);
     }
 }

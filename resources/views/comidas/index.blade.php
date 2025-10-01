@@ -11,6 +11,21 @@
               <h6>Comidas</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
+              <!-- CONTADOR DE COMIDAS -->
+              <div class="d-flex justify-content-around mb-4">
+                <div class="text-center">
+                  <h5 class="mb-0">{{ $comidas->where('tipo', 'desayuno')->count() }}</h5>
+                  <p class="text-sm mb-0">Desayunos</p>
+                </div>
+                <div class="text-center">
+                  <h5 class="mb-0">{{ $comidas->where('tipo', 'comida')->count() }}</h5>
+                  <p class="text-sm mb-0">Comidas</p>
+                </div>
+                <div class="text-center">
+                  <h5 class="mb-0">{{ $comidas->count() }}</h5>
+                  <p class="text-sm mb-0">Total</p>
+                </div>
+              </div>
               <div class="table-responsive p-0">
                 <!-- añadir filtros de fechas y tipos comidas -->
                 <form method="GET" action="{{ route('comidas-empleados.index') }}" class="d-flex justify-content-start align-items-center mb-3 ms-3">

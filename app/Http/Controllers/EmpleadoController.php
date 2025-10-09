@@ -32,6 +32,8 @@ class EmpleadoController extends Controller
     {
         $request->validate([
             'employee_name' => 'required|string|max:255',
+            'employee_area' => 'required|string|max:50',
+            'double_meal' => 'nullable|boolean',
         ]);
 
         //CREATE A SPECIFIC SIGNATURE AND QR CODE FOR THE EMPLOYEE
@@ -43,6 +45,8 @@ class EmpleadoController extends Controller
         $empleado->employee_name = $request->input('employee_name');
         $empleado->employee_signature = $signature;
         $empleado->qr_code = $qrCode;
+        $empleado->employee_area = $request->input('employee_area');
+        $empleado->double_meal = $request->has('double_meal') ? $request->input('double_meal') : 0;
         $empleado->save();
 
         return redirect()->route('empleados.index')->with('success', 'Empleado creado exitosamente.');
@@ -71,10 +75,14 @@ class EmpleadoController extends Controller
     {
         $request->validate([
             'employee_name' => 'required|string|max:255',
+            'employee_area' => 'required|string|max:50',
+            'double_meal' => 'nullable|boolean',
         ]);
 
         $empleado = Empleado::findOrFail($id);
         $empleado->employee_name = $request->input('employee_name');
+        $empleado->employee_area = $request->input('employee_area');
+        $empleado->double_meal = $request->has('double_meal') ? $request->input('double_meal') : 0;
         $empleado->save();
 
         return redirect()->route('empleados.index')->with('success', 'Empleado actualizado exitosamente.');

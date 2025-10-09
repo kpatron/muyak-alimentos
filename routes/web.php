@@ -64,3 +64,4 @@ Route::get('/comidas-empleados/{signature}', [ComidaController::class, 'confirm'
 Route::post('/comidas-empleados/{signature}/confirm', [ComidaController::class, 'final_confirmation'])->name('comidas-empleados.confirmation');
 Route::view('/comidas-success', 'comidas.success')->name('comidas-empleados.success');
 Route::view('/comidas-invalid', 'comidas.invalid')->name('comidas-empleados.invalid');
+Route::view('/comidas-already', 'comidas.already')->name('comidas-empleados.already');

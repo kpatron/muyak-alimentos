@@ -18,6 +18,8 @@ class Empleado extends Model
         'employee_name',
         'employee_signature',
         'qr_code',
+        'employee_area',
+        'double_meal',
     ];
 
     //Relations

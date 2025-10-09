@@ -56,6 +56,7 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empleado</th>
+                      <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">Área</th>
                       <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">Tipo Comida</th>
                       <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">Fecha y Hora</th>
                     </tr>
@@ -66,6 +67,9 @@
                       
                       <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $comida->empleado->employee_name }}</p>
+                      </td>
+                      <td class="align-middle">
+                        <p class="text-xs font-weight-bold mb-0">{{ $comida->empleado->employee_area }}</p>
                       </td>
                       <td class="align-middle">
                         <span class="text-secondary text-xs font-weight-bold">{{ ucfirst($comida->tipo) }}</span>

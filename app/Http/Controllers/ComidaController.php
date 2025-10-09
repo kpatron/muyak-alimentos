@@ -24,6 +24,16 @@ class ComidaController extends Controller
     {
         $empleado = Empleado::where('employee_signature', $signature)->first();
         if ($empleado) {
+            //Verificar si el empleado ya ha registrado comida hoy
+            /*$comidaHoy = Comida::where('empleado_id', $empleado->id)
+                ->whereDate('created_at', now()->toDateString())
+                ->count();
+
+            if ($comidaHoy > 0 && !$empleado->double_meal) {
+                return redirect()->route('comidas-empleados.already');
+            }else if ($comidaHoy > 1 && $empleado->double_meal) {
+                return redirect()->route('comidas-empleados.already');
+            }*/
             //Si es menos de mediodia es comida 'desayuno', si no es 'comida'
             $horaActual = now()->format('H:i:s');
             $tipoComida = ($horaActual > '07:00:00' && $horaActual < '12:00:00') ? 'desayuno' : 'comida';
@@ -76,11 +86,12 @@ class ComidaController extends Controller
         //Hay que crear en el storage path normal sin otra carpeta
         $filename = 'comidas_' . now()->format('Y_m_d') . '.csv';
         $handle = fopen(storage_path('app/public/' . $filename), 'w+');
-        fputcsv($handle, ['Empleado', 'Tipo de Comida', 'Fecha y Hora']);
+        fputcsv($handle, ['Empleado', 'Area', 'Tipo de Comida', 'Fecha y Hora']);
 
         foreach ($comidas as $comida) {
             fputcsv($handle, [
                 $comida->empleado->employee_name,
+                $comida->empleado->employee_area,
                 $comida->tipo,
                 $comida->created_at->format('Y-m-d H:i:s'),
             ]);

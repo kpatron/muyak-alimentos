@@ -19,6 +19,8 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empleado</th>
+                      <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">Área</th>
+                      <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">Comida Doble</th>
                       <th class="text-secondary text-secondary text-xxs font-weight-bolder opacity-7">QR</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
@@ -31,11 +33,17 @@
                         <p class="text-xs font-weight-bold mb-0">{{ $empleado->employee_name }}</p>
                       </td>
                       <td class="align-middle">
+                        <p class="text-xs font-weight-bold mb-0">{{ $empleado->employee_area }}</p>
+                      </td>
+                      <td class="align-middle">
+                        <p class="text-xs font-weight-bold mb-0">{{ $empleado->double_meal ? 'Si' : 'No' }}</p>
+                      </td>
+                      <td class="align-middle">
                         <!-- Descargar QR -->
                         <a href="{{ $empleado->qr_code }}" target="_blank" class="text-secondary font-weight-bold text-xs">Descargar QR</a>
                       </td>
                       <td class="align-middle">
-                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" onclick="editEmployee({{ $empleado->id }},'{{ $empleado->employee_name }}')">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-xs" onclick="editEmployee({{ $empleado->id }},'{{ $empleado->employee_name }}','{{ $empleado->employee_area }}')">
                           Edit
                         </a>
                       </td>
@@ -66,6 +74,16 @@
                 <label for="employee_name" class="form-label">Nombre del empleado</label>
                 <input type="text" class="form-control" id="employee_name" name="employee_name" required>
               </div>
+              <div class="mb-3 text-start">
+                <label for="employee_area" class="form-label">Área del empleado</label>
+                <input type="text" class="form-control" id="employee_area" name="employee_area" required>
+              </div>
+              <div class="form-check mb-3 text-start">
+                <input class="form-check-input" type="checkbox" value="1" id="double_meal" name="double_meal">
+                <label class="form-check-label" for="double_meal">
+                  ¿Permitir comida doble?
+                </label>
+              </div>
             </form>
           `,
           showCancelButton: true,
@@ -83,7 +101,7 @@
       }
 
       //Funcion para editar un empleado con un modal como el de crear empleado
-      function editEmployee(id,name) { 
+      function editEmployee(id,name,area) { 
         Swal.fire({
             title: 'Editar empleado',
             html: `
@@ -93,6 +111,16 @@
               <div class="mb-3 text-start">
                 <label for="employee_name" class="form-label">Nombre del empleado</label>
                 <input type="text" class="form-control" id="employee_name" name="employee_name" value="${name}" required>
+              </div>
+              <div class="mb-3 text-start">
+                <label for="employee_area" class="form-label">Área del empleado</label>
+                <input type="text" class="form-control" id="employee_area" name="employee_area" value="${area}" required>
+              </div>
+              <div class="form-check mb-3 text-start">
+                <input class="form-check-input" type="checkbox" value="1" id="double_meal" name="double_meal">
+                <label class="form-check-label" for="double_meal">
+                  ¿Permitir comida doble?
+                </label>
               </div>
             </form>
           `,

@@ -47,6 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
 	//Reportes concentrados por fecha y por empleado
 	Route::get('/reporte-empleado', [ReportController::class, 'employee'])->name('reportes.empleado');
 	Route::get('/reporte-empleado/export', [ReportController::class, 'exportEmployee'])->name('reportes.empleado.export');
+	Route::get('/reporte-fechas', [ReportController::class, 'dateRange'])->name('reportes.fechas');
+	Route::get('/reporte-fechas/export', [ReportController::class, 'exportDateRange'])->name('reportes.fechas.export');
 });
 
 

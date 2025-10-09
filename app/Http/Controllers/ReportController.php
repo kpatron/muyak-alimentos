@@ -52,4 +52,55 @@ class ReportController extends Controller
 
         return response()->download(storage_path('app/public/' . $filename))->deleteFileAfterSend(true);
     }
+
+    public function dateRange(Request $request)
+    {
+        $fechaInicio = $request->input('start_date') ?? now()->toDateString();
+        $fechaFin = $request->input('end_date') ?? now()->toDateString();
+        $tipoComida = $request->input('tipo') ?? 'all';
+
+        $comidas = Comida::selectRaw('DATE(created_at) as date, COUNT(*) as total')
+        ->whereDate('created_at', '>=', $fechaInicio)
+        ->whereDate('created_at', '<=', $fechaFin)
+        ->when($tipoComida !== 'all', function ($query) use ($tipoComida) {
+            return $query->where('tipo', $tipoComida);
+        })
+        ->groupBy('date')
+        ->get();
+
+        return view('reportes.fechas', compact('fechaInicio', 'fechaFin', 'tipoComida', 'comidas'));
+    }
+
+    public function exportDateRange(Request $request)
+    {
+        $fechaInicio = $request->input('fecha_inicio') ?? now()->toDateString();
+        $fechaFin = $request->input('fecha_fin') ?? now()->toDateString();
+        $tipoComida = $request->input('tipo_comida') ?? 'all';
+
+        $comidas = Comida::selectRaw('DATE(created_at) as date, COUNT(*) as total')
+            ->whereDate('created_at', '>=', $fechaInicio)
+            ->whereDate('created_at', '<=', $fechaFin)
+            ->when($tipoComida !== 'all', function ($query) use ($tipoComida) {
+                return $query->where('tipo', $tipoComida);
+            })
+            ->groupBy('date')
+            ->get();
+
+        $filename = 'reporte_concentrado_fechas_' . now()->format('Y_m_d') . '.csv';
+        $handle = fopen(storage_path('app/public/' . $filename), 'w+');
+
+        // Escribir encabezados
+        fputcsv($handle, ['Fecha', 'Total Comidas']);
+
+        foreach ($comidas as $comida) {
+            fputcsv($handle, [
+                $comida->date,
+                $comida->total
+            ]);
+        }
+
+        fclose($handle);
+
+        return response()->download(storage_path('app/public/' . $filename))->deleteFileAfterSend(true);
+    }
 }

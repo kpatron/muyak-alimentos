@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\ReportController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -42,6 +43,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::get('/comidas-empleados', [ComidaController::class, 'index'])->name('comidas-empleados.index');
 	Route::get('/comidas/export', [ComidaController::class, 'export'])->name('comidas-empleados.export');
+
+	//Reportes concentrados por fecha y por empleado
+	Route::get('/reporte-empleado', [ReportController::class, 'employee'])->name('reportes.empleado');
+	Route::get('/reporte-empleado/export', [ReportController::class, 'exportEmployee'])->name('reportes.empleado.export');
 });
 
 

@@ -62,6 +62,14 @@
             <span class="nav-link-text ms-1">Comidas</span>
         </a>
       </li>
+      <li class="nav-item pb-2">
+        <a class="nav-link {{ (Request::is('add-comida-dia') ? 'active' : '') }}" href="{{ url('add-comida-dia') }}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('add-comida-dia') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Comidas del Día</span>
+        </a>
+      </li>
       <li class="nav-item mt-2">
         <a class="nav-link {{ (Request::is('reporte-empleado') ? 'active' : '') }}" href="{{ url('reporte-empleado') }}">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">

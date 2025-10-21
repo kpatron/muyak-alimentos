@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/comidas-empleados', [ComidaController::class, 'index'])->name('comidas-empleados.index');
 	Route::get('/comidas/export', [ComidaController::class, 'export'])->name('comidas-empleados.export');
 
+	Route::get('/add-comida-dia', [ComidaController::class, 'createComidaDia'])->name('comida.dia.create');
+	Route::put('/add-comida-dia/{id}', [ComidaController::class, 'updateComidaDia'])->name('comida.dia.update');
+
 	//Reportes concentrados por fecha y por empleado
 	Route::get('/reporte-empleado', [ReportController::class, 'employee'])->name('reportes.empleado');
 	Route::get('/reporte-empleado/export', [ReportController::class, 'exportEmployee'])->name('reportes.empleado.export');
@@ -60,7 +63,7 @@ Route::group(['middleware' => 'guest'], function () {
 	Route::post('/forgot-password', [ResetController::class, 'sendEmail']);
 	Route::get('/reset-password/{token}', [ResetController::class, 'resetPass'])->name('password.reset');
 	Route::post('/reset-password', [ChangePasswordController::class, 'changePassword'])->name('password.update');
-
+	Route::get('/comida-dia', [ComidaController::class, 'today'])->name('comida.dia');
 });
 
 Route::get('/login', function () {
